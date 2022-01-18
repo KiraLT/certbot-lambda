@@ -27,6 +27,8 @@ jobs:
         poetry install
     - name: Semantic Release
       env:
-        GL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
       run: |
+        git config user.name github-actions
+        git config user.email actions@github.com
         poetry run task release
