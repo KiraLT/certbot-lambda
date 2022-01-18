@@ -5,14 +5,15 @@
 * python3.9
 * [Poetry](https://python-poetry.org/docs/#installation)
 
-## Development Setup
+## Commands
 
 * `poetry install` - install all dependencies.
 * `poetry run task dev` - run code from the source.
-* `poetry run task build` - create build zip at `./build/certbot-lambda.zip`
-* `poetry run task test` - run created zip at `./build/certbot-lambda.zip`
+* `poetry run task build` - create build zip at `./dist/certbot-lambda.zip`.
+* `poetry run task test` - run created zip at `./dist/certbot-lambda.zip`.
+* `poetry run task prettify` - prettify code using `black`.
 
-## Dev configuration
+## Configuration
 
 You can create `.env` file and store all ENV variables that will be loaded on execution.
 
