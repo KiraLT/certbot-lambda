@@ -53,20 +53,24 @@ def obtain_certbot_certs(
     ]
     certbot.main.main(certbot_args)
 
-    return read_certs_from_path(certbot_dir.joinpath("live"), domains)
+    return read_certs_from_path(certbot_dir.joinpath("live"))
 
 
-def read_certs_from_path(path: Path, domains: list[str]) -> list[Cert]:
+def read_certs_from_path(path: Path) -> list[Cert]:
     certs: list[Cert] = []
     cert_files = ["fullchain.pem", "chain.pem", "privkey.pem", "cert.pem"]
 
-    for domain in domains:
-        domain_path = path.joinpath(domain)
+    domains = [
+        v.name
+        for v in path.iterdir()
+        if v.is_dir()
+    ]
 
-        if not domain_path.is_dir():
-            raise RuntimeError(
-                f"Failed to generate cert for {domain}: {domain_path} is not a directory"
-            )
+    for domain in domains:
+        if domain.startswith('*.'):
+            domain = domain[2:]
+
+        domain_path = path.joinpath(domain)
 
         cert = Cert(domain=domain, files=[])
 

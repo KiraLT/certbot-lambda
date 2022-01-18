@@ -26,6 +26,7 @@ certbot-dns-ovh = "^1.22.0"
 certbot-dns-rfc2136 = "^1.22.0"
 certbot-dns-sakuracloud = "^1.22.0"
 python-dotenv = "^0.19.2"
+python-slugify = "^5.0.2"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.9.0"

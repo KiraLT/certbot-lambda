@@ -1,5 +1,6 @@
 from boto3 import client
 import json
+from slugify import slugify
 
 from .certbot import Cert
 
@@ -13,7 +14,7 @@ def upload_certs_as_secrets(
     certs: list[Cert], name: str, secret_names: list[str] = None, description: str = ''
 ) -> None:
     for cert in certs:
-        name = name.format(domain=cert.domain)
+        name = name.format(domain=slugify(cert.domain))
 
         create_or_update_secret(
             name=name,

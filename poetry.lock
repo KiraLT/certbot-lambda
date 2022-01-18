@@ -1071,6 +1071,20 @@ mypy = ["mypy", "types-requests"]
 test = ["coverage (>=5,<6)", "pytest (>=5,<6)", "pytest-xdist (>=1,<2)", "pytest-mock (>=2,<3)", "responses (==0.13.3)", "mock (==1.3.0)"]
 
 [[package]]
+name = "python-slugify"
+version = "5.0.2"
+description = "A Python Slugify application that handles Unicode"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+text-unidecode = ">=1.3"
+
+[package.extras]
+unidecode = ["Unidecode (>=1.1.1)"]
+
+[[package]]
 name = "pytz"
 version = "2021.3"
 description = "World timezone definitions, modern and historical"
@@ -1270,6 +1284,14 @@ psutil = ">=5.7.2,<6.0.0"
 toml = ">=0.10.0,<0.11.0"
 
 [[package]]
+name = "text-unidecode"
+version = "1.3"
+description = "The most basic Text::Unidecode port"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "tldextract"
 version = "3.1.2"
 description = "Accurately separate the TLD from the registered domain and subdomains of a URL, using the Public Suffix List. By default, this includes the public ICANN TLDs and their exceptions. You can optionally support the Public Suffix List's private domains as well."
@@ -1453,7 +1475,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.9"
-content-hash = "7dcc29537e01d0bc39efd0477b31aec4ccc2e47111dba9f026f0b78e9972a923"
+content-hash = "6b92e07b584bfa80203c40338f5b626cbe3c5f137d266f60d162ed2783a95ef7"
 
 [metadata.files]
 acme = [
@@ -1916,6 +1938,10 @@ python-semantic-release = [
     {file = "python-semantic-release-7.23.0.tar.gz", hash = "sha256:48c33bf671dafa1257e7d955543856eb98486a3f976f586053556ae180d725da"},
     {file = "python_semantic_release-7.23.0-py3-none-any.whl", hash = "sha256:5bf7fcdb28e5e9888c9a15a1168afe53302116a6874d818580d4c58db60283ab"},
 ]
+python-slugify = [
+    {file = "python-slugify-5.0.2.tar.gz", hash = "sha256:f13383a0b9fcbe649a1892b9c8eb4f8eab1d6d84b84bb7a624317afa98159cab"},
+    {file = "python_slugify-5.0.2-py2.py3-none-any.whl", hash = "sha256:6d8c5df75cd4a7c3a2d21e257633de53f52ab0265cd2d1dc62a730e8194a7380"},
+]
 pytz = [
     {file = "pytz-2021.3-py2.py3-none-any.whl", hash = "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c"},
     {file = "pytz-2021.3.tar.gz", hash = "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"},
@@ -2028,6 +2054,10 @@ soupsieve = [
 taskipy = [
     {file = "taskipy-1.9.0-py3-none-any.whl", hash = "sha256:02bd2c51c7356ed3f7f8853210ada1cd2ab273e68359ee865021c3057eec6615"},
     {file = "taskipy-1.9.0.tar.gz", hash = "sha256:449c160b557cdb1d9c17097a5ea4aa0cd5223723ddbaaa5d5032dd16274fb8f0"},
+]
+text-unidecode = [
+    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
+    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
 ]
 tldextract = [
     {file = "tldextract-3.1.2-py2.py3-none-any.whl", hash = "sha256:f55e05f6bf4cc952a87d13594386d32ad2dd265630a8bdfc3df03bd60425c6b0"},
