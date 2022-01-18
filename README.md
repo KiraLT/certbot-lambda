@@ -2,6 +2,10 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+Running Certbot on AWS Lambda and upload certs to AWS Secrets Manager.
+
+Inspired by [kingsoftgames/certbot-lambda](https://github.com/kingsoftgames/certbot-lambda) and [Deploying EFF's Certbot in AWS Lambda](https://arkadiyt.com/2018/01/26/deploying-effs-certbot-in-aws-lambda/).
+
 ## Deployment
 
 Download latest version of `certbot-lambda.zip` from [releases](https://github.com/KiraLT/certbot-lambda/releases).
