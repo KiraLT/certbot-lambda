@@ -32,15 +32,29 @@ taskipy = "^1.9.0"
 pex = "^2.1.62"
 lambdex = "^0.1.6"
 black = "^21.12b0"
+python-semantic-release = "^7.23.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-build = "rm -rf ./build && task build-pex && task build-lambda"
-build-pex = "pex . -o build/certbot-lambda.zip"
-build-lambda = "lambdex build -e app.handler:handler build/certbot-lambda.zip"
-test = "lambdex test --empty build/certbot-lambda.zip"
+build = "rm -rf ./dist && task build-pex && task build-lambda"
+build-pex = "pex . -o dist/certbot-lambda.zip"
+build-lambda = "lambdex build -e app.handler:handler dist/certbot-lambda.zip"
+test = "lambdex test --empty dist/certbot-lambda.zip"
 dev = "python -c 'from app.handler import handler; handler(None, None)'"
 prettify = "black ./app"
+release = "semantic-release publish"
+
+[tool.semantic_release]
+version_variable = [
+    "app/__init__.py:__version__",
+    "pyproject.toml:version"
+]
+branch = "main"
+hvcs = "github"
+upload_to_pypi = false
+upload_to_release = true
+build_command = "poetry run task build"
+commit_subject = "Release {version} [skip ci]"

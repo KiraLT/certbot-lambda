@@ -1,5 +1,6 @@
 from pathlib import Path
 from dataclasses import dataclass
+import certbot.main
 
 
 @dataclass
@@ -52,15 +53,40 @@ def obtain_certbot_certs(
     ]
     certbot.main.main(certbot_args)
 
-    return [
-        Cert(
-            domain=v.name,
-            files=[
-                CertFile(name=f.name, content=f.read_text())
-                for f in v.iterdir()
-                if f.suffix == ".pem"
-            ],
-        )
-        for v in CERTBOT_DIR.joinpath("live").iterdir()
-        if v.is_dir()
-    ]
+    return read_certs_from_path(certbot_dir.joinpath("live"), domains)
+
+
+def read_certs_from_path(path: Path, domains: list[str]) -> list[Cert]:
+    certs: list[Cert] = []
+    cert_files = ["fullchain.pem", "chain.pem", "privkey.pem", "cert.pem"]
+
+    for domain in domains:
+        domain_path = path.joinpath(domain)
+
+        if not domain_path.is_dir():
+            raise RuntimeError(
+                f"Failed to generate cert for {domain}: {domain_path} is not a directory"
+            )
+
+        cert = Cert(domain=domain, files=[])
+
+        for cert_file in cert_files:
+            cert_path = domain_path.joinpath(cert_file)
+
+            if not cert_path.is_file():
+                raise RuntimeError(
+                    f"Failed to generate cert for {domain}: {cert_path} not found"
+                )
+
+            content = cert_path.read_text()
+
+            if len(content) < 50:
+                raise RuntimeError(
+                    f"Failed to generate cert for {domain}: {cert_path} cert is incorrect"
+                )
+
+            cert.files.append(CertFile(name=cert_path.name, content=content))
+
+        certs.append(cert)
+
+    return certs

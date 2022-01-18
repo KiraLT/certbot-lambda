@@ -1,4 +1,5 @@
 from boto3 import client
+import json
 
 from .certbot import Cert
 
@@ -16,8 +17,8 @@ def upload_certs_as_secrets(
 
         create_or_update_secret(
             name=name,
-            data=json.dumps({f.name: f.content for f in cert.files}),
-            secret_names=available_secrets,
+            data={f.name: f.content for f in cert.files},
+            secret_names=secret_names,
         )
 
 
@@ -36,6 +37,6 @@ def create_or_update_secret(
 
         secretsmanager.create_secret(
             Name=name,
-            Description=f"Auto generated SSL certificate by certbot",
+            Description=f"Auto generated SSL certificate by lambda-certbot",
             SecretString=json.dumps(data),
         )
