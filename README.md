@@ -16,6 +16,7 @@ Download latest version of `certbot-lambda.zip` from [releases](https://github.c
     * `SecretsManagerReadWrite`
     * `AmazonRoute53FullAccess`
 1. Increase execution timeout in `Configuration` > `General configuration` to 10 minutes and memory limit to 150Mb.
+1. Add ENV variables at `Configuration` > `Environment variables` (check bellow for required ENV variables).
 1. Run lambda manually one time to create a secret by going to `Test` and executing `hello-wold` template.
 
 ### Automatic rotation

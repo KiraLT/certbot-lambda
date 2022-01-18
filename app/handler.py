@@ -10,10 +10,10 @@ from app.services.aws import list_secret_names, upload_certs_as_secrets
 def handler(_event, _context):
     try:
         shutil.rmtree(str(settings.CERTBOT_DIR), ignore_errors=True)
-        # Load secret names yearly to check if aws client is configured correctly
+
+        # Load secret names early to check if aws client is configured correctly
         secret_names = list_secret_names()
 
-        # Obtain certs
         certs = obtain_certbot_certs(
             emails=settings.CERTBOT_EMAILS,
             domains=settings.CERTBOT_DOMAINS,
