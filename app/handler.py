@@ -23,7 +23,10 @@ def handler(_event, _context):
         )
 
         upload_certs_as_secrets(
-            certs, name=settings.AWS_SECRET_NAME, secret_names=secret_names
+            certs,
+            name=settings.AWS_SECRET_NAME,
+            secret_names=secret_names,
+            description=settings.AWS_SECRET_DESCRIPTION
         )
     finally:
         shutil.rmtree(str(settings.CERTBOT_DIR), ignore_errors=True)

@@ -45,5 +45,6 @@ Then go to AWS Secrets dashboard and create a rotation rule for created secrets 
 | CERTBOT_SERVER | Letsencrypt API url. | `https://acme-v02.api.letsencrypt.org/directory` |
 | CERTBOT_DIR | Temporary certbot directory where logs and generated certs will be stored. | `/tmp/certbot` |
 | AWS_SECRET_NAME | AWS secret name template, {domain} will be replaced with domain name. | `certbot-{domain}` |
+| AWS_SECRET_DESCRIPTION | AWS secret name description text. | `Auto generated SSL certificate by lambda-certbot` |
 
 Each DNS challenge plugin requires different configuration, check [documentation](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins) for more information.

@@ -10,7 +10,7 @@ def list_secret_names() -> list[str]:
 
 
 def upload_certs_as_secrets(
-    certs: list[Cert], name: str, secret_names: list[str] = None
+    certs: list[Cert], name: str, secret_names: list[str] = None, description: str = ''
 ) -> None:
     for cert in certs:
         name = name.format(domain=cert.domain)
@@ -19,11 +19,12 @@ def upload_certs_as_secrets(
             name=name,
             data={f.name: f.content for f in cert.files},
             secret_names=secret_names,
+            description=description
         )
 
 
 def create_or_update_secret(
-    name: str, data: dict[str, str], secret_names: list[str] = None
+    name: str, data: dict[str, str], secret_names: list[str] = None, description: str = ''
 ):
     secretsmanager = client("secretsmanager")
     secret_names = secret_names if secret_names is not None else list_secret_names()
@@ -37,6 +38,6 @@ def create_or_update_secret(
 
         secretsmanager.create_secret(
             Name=name,
-            Description=f"Auto generated SSL certificate by lambda-certbot",
+            Description=description,
             SecretString=json.dumps(data),
         )
