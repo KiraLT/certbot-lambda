@@ -26,15 +26,16 @@ def read_env(name: str, required: bool = False, multi=False, default=None):
     if multi:
         if value:
             return [v.strip() for v in value.split(",")]
-        return default if default else []
+        return default if default is not None else []
 
     if value:
         return value.strip()
 
-    return default if default else value
+    return default if default is not None else value
 
 
 load_dotenv()
+
 settings = Settings(
     CERTBOT_EMAILS=read_env("CERTBOT_EMAILS", required=True, multi=True),
     CERTBOT_DOMAINS=read_env("CERTBOT_DOMAINS", required=True, multi=True),
