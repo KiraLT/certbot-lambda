@@ -44,7 +44,18 @@ Then go to AWS Secrets dashboard and create a rotation rule for created secrets 
 | CERTBOT_DNS_PLUGIN | DNS provider plugin name for acme challenge. E.g. `dns-cloudflare`, find plugin list [here](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins). | **required** |
 | CERTBOT_SERVER | Letsencrypt API url. | `https://acme-v02.api.letsencrypt.org/directory` |
 | CERTBOT_DIR | Temporary certbot directory where logs and generated certs will be stored. | `/tmp/certbot` |
+| CERTBOT_PREFERRED_CHAIN | Force to use specified cert chain, e.g. `ISRG Root X1` | |
 | AWS_SECRET_NAME | AWS secret name template, {domain} will be replaced with domain name. | `certbot-{domain}` |
 | AWS_SECRET_DESCRIPTION | AWS secret name description text. | `Auto generated SSL certificate by lambda-certbot` |
 
 Each DNS challenge plugin requires different configuration, check [documentation](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins) for more information.
+
+## Letsencrypt
+
+### 2021 September 30th Root CA X3 root certificate expired
+
+Due to a bug in some versions of [OpenSSL (1.0.0 - 1.0.2)](https://community.letsencrypt.org/t/openssl-client-compatibility-changes-for-let-s-encrypt-certificates/143816), [GnuTLS (< 3.6.14)](https://lists.gnupg.org/pipermail/gnutls-help/2020-June/004648.html), [LibreSSL (< 3.2.0)](https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.2.0-relnotes.txt) and perhaps other TLS/SSL libraries as well, Let's Encrypt's certificates will be seen as invalid as a result of this invalid DST Root CA X3 certificate still being included.
+
+To solve this issue, you can disable `Root CA X3` certificate that is still included due to legacy support (mostly Android) by providing `CERTBOT_PREFERRED_CHAIN=ISRG Root X1` environment variable.
+
+_Source: [Laravel: Let's Encrypt Compatibility Changes](https://blog.laravel.com/forge-lets-encrypt-compatibility-changes)_

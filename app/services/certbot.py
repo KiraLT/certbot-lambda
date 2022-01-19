@@ -21,6 +21,7 @@ def obtain_certbot_certs(
     dns_plugin: str,
     certbot_dir: Path,
     certbot_server: str,
+    preferred_chain: str = None
 ) -> list[Cert]:
     certbot_args = [
         # Override directory paths so script doesn't have to be run as root
@@ -50,6 +51,10 @@ def obtain_certbot_certs(
         # Domains to provision certs for (comma separated)
         "--domains",
         ",".join(domains),
+        *([
+            "--preferred-chain",
+            preferred_chain
+        ] if preferred_chain else [])
     ]
     certbot.main.main(certbot_args)
 

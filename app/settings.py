@@ -14,6 +14,7 @@ class Settings:
     AWS_SECRET_NAME: str
     AWS_DEFAULT_REGION: str
     AWS_SECRET_DESCRIPTION: str
+    CERTBOT_PREFERRED_CHAIN: str = None
 
 
 def read_env(name: str, required: bool = False, multi=False, default=None):
@@ -45,4 +46,5 @@ settings = Settings(
     AWS_DEFAULT_REGION=read_env("AWS_DEFAULT_REGION", required=True),
     AWS_SECRET_NAME=read_env("AWS_SECRET_NAME", default="certbot-{domain}"),
     AWS_SECRET_DESCRIPTION=read_env("AWS_SECRET_DESCRIPTION", default="Auto generated SSL certificate by lambda-certbot"),
+    CERTBOT_PREFERRED_CHAIN=read_env("CERTBOT_PREFERRED_CHAIN"),
 )
