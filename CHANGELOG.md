@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.2 (2022-01-19)
+### Fix
+* Code improvements ([`4777178`](https://github.com/KiraLT/certbot-lambda/commit/4777178eb2e1c78aaaebffbae0985d15272b7464))
+
 ## v0.1.1 (2022-01-18)
 ### Fix
 * Support asterisk and multiple domains ([`9e299e7`](https://github.com/KiraLT/certbot-lambda/commit/9e299e7bccf64ee7b3a097b75945a04ce00d8da9))
