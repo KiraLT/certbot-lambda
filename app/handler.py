@@ -20,7 +20,10 @@ def handler(_event, _context):
             dns_plugin=settings.CERTBOT_DNS_PLUGIN,
             certbot_dir=settings.CERTBOT_DIR,
             certbot_server=settings.CERTBOT_SERVER,
-            preferred_chain=settings.CERTBOT_PREFERRED_CHAIN
+            preferred_chain=settings.CERTBOT_PREFERRED_CHAIN,
+            extra_args=settings.CERTBOT_EXTRA_ARGS,
+            credentials=settings.CERTBOT_CREDENTIALS,
+            propagation_seconds=settings.CERTBOT_PROPAGATION_SECONDS
         )
 
         upload_certs_as_secrets(

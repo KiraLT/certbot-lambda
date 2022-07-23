@@ -1,5 +1,6 @@
 from pathlib import Path
 from dataclasses import dataclass
+from tempfile import NamedTemporaryFile
 import certbot.main
 
 
@@ -21,7 +22,10 @@ def obtain_certbot_certs(
     dns_plugin: str,
     certbot_dir: Path,
     certbot_server: str,
-    preferred_chain: str = None
+    preferred_chain: str = None,
+    extra_args: list[str] = None,
+    credentials: str = None,
+    propagation_seconds: Int = None
 ) -> list[Cert]:
     certbot_args = [
         # Override directory paths so script doesn't have to be run as root
@@ -51,14 +55,36 @@ def obtain_certbot_certs(
         # Domains to provision certs for (comma separated)
         "--domains",
         ",".join(domains),
+        # Rewrite preferred chain
         *([
             "--preferred-chain",
             preferred_chain
-        ] if preferred_chain else [])
+        ] if preferred_chain else []),
+        # Credentials file
+        *([
+            f"--{dns_plugin}-credentials",
+            create_tmp_file(credentials)
+        ] if credentials else []),
+        # The number of seconds to wait for DNS
+        *([
+            f"--{dns_plugin}-propagation-seconds",
+            propagation_seconds
+        ] if propagation_seconds else []),
+        ## Add custom arguments
+        *(extra_args or [])
     ]
     certbot.main.main(certbot_args)
 
     return read_certs_from_path(certbot_dir.joinpath("live"))
+
+
+def create_tmp_file(content: str) -> str:
+    tmpFile = NamedTemporaryFile(delete=False)
+
+    with open(tmpFile, 'w') as f:
+        f.write(content)
+
+    return tmpFile.name
 
 
 def read_certs_from_path(path: Path) -> list[Cert]:

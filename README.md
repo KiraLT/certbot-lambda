@@ -39,14 +39,17 @@ Then go to AWS Secrets dashboard and create a rotation rule for created secrets 
 
 | Name | Description | Default/required |
 |---|---|---|
-| CERTBOT_EMAILS | Email used for registration and recovery contact. Use comma to register multiple emails, ex: u1@example.com,u2@example.com. | **required** |
+| CERTBOT_EMAILS | Email used for registration and recovery contact. Use comma to register multiple emails, eg: `u1@example.com,u2@example.com`. | **required** |
 | CERTBOT_DOMAINS | One or more domains that require certs generation. | **required** |
 | CERTBOT_DNS_PLUGIN | DNS provider plugin name for acme challenge. E.g. `dns-cloudflare`, find plugin list [here](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins). | **required** |
+| CERTBOT_CREDENTIALS | Credentials file content depending on `CERTBOT_DNS_PLUGIN`. E. g. `{\n"type": "service_account",\n...}` for `dns-google` plugin. | **required** except for [route53](https://certbot-dns-route53.readthedocs.io/en/stable/#credentials) |
 | CERTBOT_SERVER | Letsencrypt API url. | `https://acme-v02.api.letsencrypt.org/directory` |
 | CERTBOT_DIR | Temporary certbot directory where logs and generated certs will be stored. | `/tmp/certbot` |
 | CERTBOT_PREFERRED_CHAIN | Force to use specified cert chain, e.g. `ISRG Root X1` | |
 | AWS_SECRET_NAME | AWS secret name template, {domain} will be replaced with domain name. | `certbot-{domain}` |
 | AWS_SECRET_DESCRIPTION | AWS secret name description text. | `Auto generated SSL certificate by lambda-certbot` |
+| CERTBOT_PROPAGATION_SECONDS | The number of seconds to wait for DNS to propagate before asking the ACME server to verify the DNS record. | Depends on dns plugin |
+| CERTBOT_EXTRA_ARGS | Additional arguments that will be passed to [certbot](https://eff-certbot.readthedocs.io/en/stable/using.html#certbot-command-line-options). | |
 
 Each DNS challenge plugin requires different configuration, check [documentation](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins) for more information.
 
