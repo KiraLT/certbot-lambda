@@ -2,12 +2,14 @@
 
 import shutil
 
-from app.settings import settings
+from app.settings import load_settings
 from app.services.certbot import obtain_certbot_certs
 from app.services.aws import list_secret_names, upload_certs_as_secrets
 
 
 def handler(_event, _context):
+    settings = load_settings()
+
     try:
         shutil.rmtree(str(settings.CERTBOT_DIR), ignore_errors=True)
 
@@ -23,14 +25,14 @@ def handler(_event, _context):
             preferred_chain=settings.CERTBOT_PREFERRED_CHAIN,
             extra_args=settings.CERTBOT_EXTRA_ARGS,
             credentials=settings.CERTBOT_CREDENTIALS,
-            propagation_seconds=settings.CERTBOT_PROPAGATION_SECONDS
+            propagation_seconds=settings.CERTBOT_PROPAGATION_SECONDS,
         )
 
         upload_certs_as_secrets(
             certs,
             name=settings.AWS_SECRET_NAME,
             secret_names=secret_names,
-            description=settings.AWS_SECRET_DESCRIPTION
+            description=settings.AWS_SECRET_DESCRIPTION,
         )
     finally:
         shutil.rmtree(str(settings.CERTBOT_DIR), ignore_errors=True)

@@ -25,7 +25,7 @@ def obtain_certbot_certs(
     preferred_chain: str = None,
     extra_args: list[str] = None,
     credentials: str = None,
-    propagation_seconds: Int = None
+    propagation_seconds: int = None,
 ) -> list[Cert]:
     certbot_args = [
         # Override directory paths so script doesn't have to be run as root
@@ -56,22 +56,21 @@ def obtain_certbot_certs(
         "--domains",
         ",".join(domains),
         # Rewrite preferred chain
-        *([
-            "--preferred-chain",
-            preferred_chain
-        ] if preferred_chain else []),
+        *(["--preferred-chain", preferred_chain] if preferred_chain else []),
         # Credentials file
-        *([
-            f"--{dns_plugin}-credentials",
-            create_tmp_file(credentials)
-        ] if credentials else []),
+        *(
+            [f"--{dns_plugin}-credentials", create_tmp_file(credentials)]
+            if credentials
+            else []
+        ),
         # The number of seconds to wait for DNS
-        *([
-            f"--{dns_plugin}-propagation-seconds",
-            propagation_seconds
-        ] if propagation_seconds else []),
+        *(
+            [f"--{dns_plugin}-propagation-seconds", propagation_seconds]
+            if propagation_seconds
+            else []
+        ),
         ## Add custom arguments
-        *(extra_args or [])
+        *(extra_args or []),
     ]
     certbot.main.main(certbot_args)
 
@@ -81,7 +80,7 @@ def obtain_certbot_certs(
 def create_tmp_file(content: str) -> str:
     tmpFile = NamedTemporaryFile(delete=False)
 
-    with open(tmpFile, 'w') as f:
+    with open(tmpFile, "w") as f:
         f.write(content)
 
     return tmpFile.name
@@ -91,14 +90,10 @@ def read_certs_from_path(path: Path) -> list[Cert]:
     certs: list[Cert] = []
     cert_files = ["fullchain.pem", "chain.pem", "privkey.pem", "cert.pem"]
 
-    domains = [
-        v.name
-        for v in path.iterdir()
-        if v.is_dir()
-    ]
+    domains = [v.name for v in path.iterdir() if v.is_dir()]
 
     for domain in domains:
-        if domain.startswith('*.'):
+        if domain.startswith("*."):
             domain = domain[2:]
 
         domain_path = path.joinpath(domain)

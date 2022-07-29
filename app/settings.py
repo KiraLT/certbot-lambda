@@ -15,12 +15,17 @@ class Settings:
     AWS_DEFAULT_REGION: str
     AWS_SECRET_DESCRIPTION: str
     CERTBOT_PREFERRED_CHAIN: str = None
+    CERTBOT_EXTRA_ARGS: list[str] = None
+    CERTBOT_CREDENTIALS: str = None
+    CERTBOT_PROPAGATION_SECONDS: str = None
 
 
-def read_env(name: str, required: bool = False, multi=False, default=None, delimiter=","):
+def read_env(
+    name: str, required: bool = False, multi=False, default=None, delimiter=","
+):
     value = getenv(name)
 
-    if required and not name:
+    if required and not value:
         raise ValueError(f"Environment variable {name} is required")
 
     if multi:
@@ -34,21 +39,25 @@ def read_env(name: str, required: bool = False, multi=False, default=None, delim
     return default if default is not None else value
 
 
-load_dotenv()
+def load_settings() -> Settings:
+    load_dotenv()
 
-settings = Settings(
-    CERTBOT_EMAILS=read_env("CERTBOT_EMAILS", required=True, multi=True),
-    CERTBOT_DOMAINS=read_env("CERTBOT_DOMAINS", required=True, multi=True),
-    CERTBOT_DNS_PLUGIN=read_env("CERTBOT_DNS_PLUGIN", required=True),
-    CERTBOT_SERVER=read_env(
-        "CERTBOT_SERVER", default="https://acme-v02.api.letsencrypt.org/directory"
-    ),
-    CERTBOT_DIR=Path(read_env("CERTBOT_DIR", default="/tmp/certbot")).resolve(),
-    AWS_DEFAULT_REGION=read_env("AWS_DEFAULT_REGION", required=True),
-    AWS_SECRET_NAME=read_env("AWS_SECRET_NAME", default="certbot-{domain}"),
-    AWS_SECRET_DESCRIPTION=read_env("AWS_SECRET_DESCRIPTION", default="Auto generated SSL certificate by lambda-certbot"),
-    CERTBOT_PREFERRED_CHAIN=read_env("CERTBOT_PREFERRED_CHAIN"),
-    CERTBOT_EXTRA_ARGS=read_env("CERTBOT_EXTRA_ARGS", multi=True, delimiter=" "),
-    CERTBOT_CREDENTIALS=read_env("CERTBOT_CREDENTIALS"),
-    CERTBOT_PROPAGATION_SECONDS=read_env("CERTBOT_PROPAGATION_SECONDS")
-)
+    return Settings(
+        CERTBOT_EMAILS=read_env("CERTBOT_EMAILS", required=True, multi=True),
+        CERTBOT_DOMAINS=read_env("CERTBOT_DOMAINS", required=True, multi=True),
+        CERTBOT_DNS_PLUGIN=read_env("CERTBOT_DNS_PLUGIN", required=True),
+        CERTBOT_SERVER=read_env(
+            "CERTBOT_SERVER", default="https://acme-v02.api.letsencrypt.org/directory"
+        ),
+        CERTBOT_DIR=Path(read_env("CERTBOT_DIR", default="/tmp/certbot")).resolve(),
+        AWS_DEFAULT_REGION=read_env("AWS_DEFAULT_REGION", required=True),
+        AWS_SECRET_NAME=read_env("AWS_SECRET_NAME", default="certbot-{domain}"),
+        AWS_SECRET_DESCRIPTION=read_env(
+            "AWS_SECRET_DESCRIPTION",
+            default="Auto generated SSL certificate by lambda-certbot",
+        ),
+        CERTBOT_PREFERRED_CHAIN=read_env("CERTBOT_PREFERRED_CHAIN"),
+        CERTBOT_EXTRA_ARGS=read_env("CERTBOT_EXTRA_ARGS", multi=True, delimiter=" "),
+        CERTBOT_CREDENTIALS=read_env("CERTBOT_CREDENTIALS"),
+        CERTBOT_PROPAGATION_SECONDS=read_env("CERTBOT_PROPAGATION_SECONDS"),
+    )
