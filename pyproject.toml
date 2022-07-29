@@ -30,7 +30,7 @@ python-slugify = "^5.0.2"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.9.0"
-pex = "^2.1.62"
+pex = "^2.1.102"
 lambdex = "^0.1.6"
 black = "^21.12b0"
 python-semantic-release = "^7.23.0"
