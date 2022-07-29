@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.2 (2022-07-29)
+### Fix
+* Release ci ([`331a18f`](https://github.com/KiraLT/certbot-lambda/commit/331a18f9cc189f5a236984aa47a7becdafc6b550))
+
 ## v0.2.1 (2022-07-29)
 ### Fix
 * Dependencies update and settings fix ([`0264d8f`](https://github.com/KiraLT/certbot-lambda/commit/0264d8f1c446b17ed47cf0460a29afca23ca3639))
