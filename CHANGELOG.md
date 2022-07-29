@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.1 (2022-07-29)
+### Fix
+* Dependencies update and settings fix ([`0264d8f`](https://github.com/KiraLT/certbot-lambda/commit/0264d8f1c446b17ed47cf0460a29afca23ca3639))
+
 ## v0.2.0 (2022-07-23)
 ### Feature
 * Credentials file, propagation seconds and custom certbot args support ([`8ba38bd`](https://github.com/KiraLT/certbot-lambda/commit/8ba38bdc24d87722cd9fb308215d3ed582e85af4))
