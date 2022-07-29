@@ -20,7 +20,6 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         python-version: 3.9
-        cache: poetry
 
     - name: Configure poetry
       run: poetry config virtualenvs.in-project true
@@ -30,7 +29,7 @@ jobs:
 
     - name: Semantic Release
       env:
-        GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config user.name github-actions
         git config user.email actions@github.com
