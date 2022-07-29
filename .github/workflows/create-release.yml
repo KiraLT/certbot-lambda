@@ -16,15 +16,12 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install poetry
-      run: pipx install poetry
-
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v4 
       with:
         python-version: 3.9
-
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
+        cache: poetry
+  
+    - uses: abatilo/actions-poetry@v2.0.0
 
     - name: Install dependencies
       run: poetry install
