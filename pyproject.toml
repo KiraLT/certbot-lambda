@@ -29,7 +29,7 @@ python-dotenv = "^0.19.2"
 python-slugify = "^5.0.2"
 
 [tool.poetry.dev-dependencies]
-taskipy = "^1.9.0"
+taskipy = "^1.10.1"
 pex = "^2.1.62"
 lambdex = "^0.1.6"
 black = "^21.12b0"
