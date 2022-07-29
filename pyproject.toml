@@ -53,6 +53,7 @@ version_variable = [
     "app/__init__.py:__version__",
     "pyproject.toml:version"
 ]
+version_source = "tag"
 branch = "main"
 hvcs = "github"
 upload_to_pypi = false
