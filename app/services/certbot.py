@@ -27,76 +27,69 @@ def obtain_certbot_certs(
     credentials: str = None,
     propagation_seconds: int = None,
 ) -> list[Cert]:
-    certbot_args = [
-        # Override directory paths so script doesn't have to be run as root
-        "--config-dir",
-        str(certbot_dir),
-        "--work-dir",
-        str(certbot_dir),
-        "--logs-dir",
-        str(certbot_dir),
-        # Obtain a cert but don't install it
-        "certonly",
-        # Run in non-interactive mode
-        "--non-interactive",
-        # Agree to the terms of service
-        "--agree-tos",
-        # Email of domain administrators
-        "--email",
-        ",".join(emails),
-        # Use dns challenge with dns plugin
-        "--authenticator",
-        dns_plugin,
-        "--preferred-challenges",
-        "dns-01",
-        # Use this server instead of default acme-v01
-        "--server",
-        certbot_server,
-        # Domains to provision certs for (comma separated)
-        "--domains",
-        ",".join(domains),
-        # Rewrite preferred chain
-        *(["--preferred-chain", preferred_chain] if preferred_chain else []),
-        # Credentials file
-        *(
-            [f"--{dns_plugin}-credentials", create_tmp_file(credentials)]
-            if credentials
-            else []
-        ),
-        # The number of seconds to wait for DNS
-        *(
-            [f"--{dns_plugin}-propagation-seconds", propagation_seconds]
-            if propagation_seconds
-            else []
-        ),
-        ## Add custom arguments
-        *(extra_args or []),
-    ]
+    with NamedTemporaryFile(mode = "w") as tmp:
+        if credentials:
+            tmp.write(credentials)
+            tmp.flush()
 
-    main.main(certbot_args)
+        certbot_args = [
+            # Override directory paths so script doesn't have to be run as root
+            "--config-dir",
+            str(certbot_dir),
+            "--work-dir",
+            str(certbot_dir),
+            "--logs-dir",
+            str(certbot_dir),
+            # Obtain a cert but don't install it
+            "certonly",
+            # Run in non-interactive mode
+            "--non-interactive",
+            # Agree to the terms of service
+            "--agree-tos",
+            # Email of domain administrators
+            "--email",
+            ",".join(emails),
+            # Use dns challenge with dns plugin
+            "--authenticator",
+            dns_plugin,
+            "--preferred-challenges",
+            "dns-01",
+            # Use this server instead of default acme-v01
+            "--server",
+            certbot_server,
+            # Domains to provision certs for (comma separated)
+            "--domains",
+            ",".join(domains),
+            # Rewrite preferred chain
+            *(["--preferred-chain", preferred_chain] if preferred_chain else []),
+            # Credentials file
+            *(
+                [f"--{dns_plugin}-credentials", tmp.name]
+                if credentials
+                else []
+            ),
+            # The number of seconds to wait for DNS
+            *(
+                [f"--{dns_plugin}-propagation-seconds", propagation_seconds]
+                if propagation_seconds
+                else []
+            ),
+            ## Add custom arguments
+            *(extra_args or []),
+        ]
+
+        main.main(certbot_args)
 
     return read_certs_from_path(certbot_dir.joinpath("live"))
-
-
-def create_tmp_file(content: str) -> str:
-    tmpFile = NamedTemporaryFile(delete=False)
-
-    with open(tmpFile, "w") as f:
-        f.write(content)
-
-    return tmpFile.name
 
 
 def read_certs_from_path(path: Path) -> list[Cert]:
     certs: list[Cert] = []
     cert_files = ["fullchain.pem", "chain.pem", "privkey.pem", "cert.pem"]
-    print(path)
+
     domains = [v.name for v in path.iterdir() if v.is_dir()]
 
     for domain in domains:
-        if domain.startswith("*."):
-            domain = domain[2:]
-
         domain_path = path.joinpath(domain)
 
         cert = Cert(domain=domain, files=[])

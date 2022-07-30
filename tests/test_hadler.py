@@ -14,9 +14,10 @@ secrets = {
 }
 
 
+@patch("app.settings.load_dotenv")
 @patch("app.services.aws.client")
 @patch("app.services.certbot.main.main")
-def test_new_aws_cer(certbot, client):
+def test_new_aws_cer(certbot, client, _dotenv):
     client.return_value.list_secrets.return_value = {"SecretList": []}
 
     with TemporaryDirectory() as tmpdir:
@@ -75,9 +76,10 @@ def test_new_aws_cer(certbot, client):
         )
 
 
+@patch("app.settings.load_dotenv")
 @patch("app.services.aws.client")
 @patch("app.services.certbot.main.main")
-def test_existing_aws_cert(certbot, client):
+def test_existing_aws_cert(certbot, client, _dotenv):
     client.return_value.list_secrets.return_value = {
         "SecretList": [{"Name": "certbot-domain-com"}]
     }
