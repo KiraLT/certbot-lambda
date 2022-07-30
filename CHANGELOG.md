@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.3 (2022-07-30)
+### Fix
+* Fix dependency issue, add google cloud function support ([`01630d0`](https://github.com/KiraLT/certbot-lambda/commit/01630d010296729fed0b7d4431f547bd426a852f))
+
+### Documentation
+* README update ([`a7e318a`](https://github.com/KiraLT/certbot-lambda/commit/a7e318adffb37134155fe60a693b1c1c512d2242))
+
 ## v0.2.2 (2022-07-29)
 ### Fix
 * Release ci ([`331a18f`](https://github.com/KiraLT/certbot-lambda/commit/331a18f9cc189f5a236984aa47a7becdafc6b550))
