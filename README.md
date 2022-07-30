@@ -1,4 +1,4 @@
-# certbot-lambda
+# Certbot Lambda
 
 [![CodeQL](https://github.com/KiraLT/certbot-lambda/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/KiraLT/certbot-lambda/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/KiraLT/certbot-lambda/branch/main/graph/badge.svg?token=E599EPAOPM)](https://codecov.io/gh/KiraLT/certbot-lambda)
@@ -9,11 +9,20 @@ Running Certbot on AWS Lambda and upload certs to AWS Secrets Manager.
 
 Inspired by [kingsoftgames/certbot-lambda](https://github.com/kingsoftgames/certbot-lambda) and [Deploying EFF's Certbot in AWS Lambda](https://arkadiyt.com/2018/01/26/deploying-effs-certbot-in-aws-lambda/).
 
+
+## Features
+
+- Supports wildcard certificates (Let's Encrypt ACME v2).
+- Uploads certificates to [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/).
+- Runs on [AWS Lambda](https://aws.amazon.com/lambda/).
+- Supports automatic rotation.
+- Supports 14 [DNS providers](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins).
+
 ## Deployment
 
-Download latest version of `certbot-lambda.zip` from [releases](https://github.com/KiraLT/certbot-lambda/releases).
+### AWS Lambda
 
-### Creating lambda
+Download latest version of `certbot-lambda.zip` from [releases](https://github.com/KiraLT/certbot-lambda/releases).
 
 1. Create new lambda in AWS Dashboard with `Python 3.9` runtime.
 1. Upload `certbot-lambda.zip` at `Code` > `Code source` > `Upload from` > `.zip file`.
@@ -26,7 +35,7 @@ Download latest version of `certbot-lambda.zip` from [releases](https://github.c
 1. Add ENV variables at `Configuration` > `Environment variables` (check bellow for required ENV variables).
 1. Run lambda manually one time to create a secret by going to `Test` and executing `hello-wold` template.
 
-### Automatic rotation
+#### Automatic rotation
 
 AWS secret can run created lambda periodically to generate new certs, for example, every month. 
 
@@ -65,3 +74,30 @@ Due to a bug in some versions of [OpenSSL (1.0.0 - 1.0.2)](https://community.let
 To solve this issue, you can disable `Root CA X3` certificate that is still included due to legacy support (mostly Android) by providing `CERTBOT_PREFERRED_CHAIN=ISRG Root X1` environment variable.
 
 _Source: [Laravel: Let's Encrypt Compatibility Changes](https://blog.laravel.com/forge-lets-encrypt-compatibility-changes)_
+
+## Examples
+
+### AWS Lambda to AWS Secrets using Route 53
+
+#### Configuration
+
+```
+CERTBOT_EMAILS=name@example.com
+CERTBOT_DOMAINS=*.example.com,example.com
+CERTBOT_DNS_PLUGIN=dns-route53
+```
+
+| In the [lambda](https://aws.amazon.com/lambda/) aws credentials are provided by default. Make sure lambda role has access to AWS Secrets and Route 53. Or you can [configure them manually](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
+
+### AWS Lambda to AWS Secrets using Cloudflare
+
+#### Configuration
+
+```
+CERTBOT_EMAILS=name@example.com
+CERTBOT_DOMAINS=*.example.com,example.com
+CERTBOT_DNS_PLUGIN=dns-cloudflare
+CERTBOT_CREDENTIALS="dns_cloudflare_api_token = 0123456789abcdef0123456789abcdef01234567"
+```
+
+| In the [lambda](https://aws.amazon.com/lambda/) aws credentials are provided by default. Make sure lambda role has access to AWS Secrets. Or you can [configure them manually](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
