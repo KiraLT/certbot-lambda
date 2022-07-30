@@ -1,7 +1,7 @@
 from pathlib import Path
 from dataclasses import dataclass
 from tempfile import NamedTemporaryFile
-import certbot.main
+from certbot import main
 
 
 @dataclass
@@ -72,7 +72,8 @@ def obtain_certbot_certs(
         ## Add custom arguments
         *(extra_args or []),
     ]
-    certbot.main.main(certbot_args)
+
+    main.main(certbot_args)
 
     return read_certs_from_path(certbot_dir.joinpath("live"))
 
@@ -89,7 +90,7 @@ def create_tmp_file(content: str) -> str:
 def read_certs_from_path(path: Path) -> list[Cert]:
     certs: list[Cert] = []
     cert_files = ["fullchain.pem", "chain.pem", "privkey.pem", "cert.pem"]
-
+    print(path)
     domains = [v.name for v in path.iterdir() if v.is_dir()]
 
     for domain in domains:

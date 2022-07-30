@@ -1,0 +1,23 @@
+name: Running Code Coverage
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+            cache: 'poetry'
+
+      - uses: abatilo/actions-poetry@v2.1.5
+
+      - run: poetry install
+
+      - run: poetry run task test
+
+      - uses: codecov/codecov-action@v3.1.0

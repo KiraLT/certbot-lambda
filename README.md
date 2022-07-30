@@ -1,5 +1,8 @@
 # certbot-lambda
 
+[![CodeQL](https://github.com/KiraLT/certbot-lambda/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/KiraLT/certbot-lambda/actions/workflows/codeql-analysis.yml)
+[![codecov](https://codecov.io/gh/KiraLT/certbot-lambda/branch/main/graph/badge.svg?token=E599EPAOPM)](https://codecov.io/gh/KiraLT/certbot-lambda)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/relekang/python-semantic-release)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Running Certbot on AWS Lambda and upload certs to AWS Secrets Manager.

@@ -34,6 +34,8 @@ taskipy = "^1.10.2"
 pex = "^2.1.102"
 lambdex = "^0.1.6"
 python-semantic-release = "^7.31.2"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -43,9 +45,9 @@ build-backend = "poetry.core.masonry.api"
 build = "rm -rf ./dist && task build-pex && task build-lambda"
 build-pex = "pex . -o dist/certbot-lambda.zip"
 build-lambda = "lambdex build -e app.handler:handler dist/certbot-lambda.zip"
-test = "lambdex test --empty dist/certbot-lambda.zip"
+test = "pytest --cov=app tests/"
 dev = "python -c 'from app.handler import handler; handler(None, None)'"
-prettify = "black ./app"
+prettify = "black ./app ./tests"
 release = "semantic-release publish"
 
 [tool.semantic_release]
