@@ -27,7 +27,6 @@ certbot-dns-rfc2136 = "^1.29.0"
 certbot-dns-sakuracloud = "^1.29.0"
 python-dotenv = "^0.20.0"
 python-slugify = "^6.1.2"
-black = "^22.6.0"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.10.2"
@@ -36,6 +35,7 @@ lambdex = "^0.1.6"
 python-semantic-release = "^7.31.2"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
+black = "^22.6.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -44,7 +44,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.taskipy.tasks]
 build = "rm -rf ./dist && task build-pex && task build-lambda"
 build-pex = "pex . -o dist/certbot-lambda.zip"
-build-lambda = "lambdex build -e app.handler:handler dist/certbot-lambda.zip"
+build-lambda = "lambdex build -e app.handler:handler -M main.py dist/certbot-lambda.zip"
 test = "pytest --cov=app --cov-report xml tests/"
 dev = "python -c 'from app.handler import handler; handler(None, None)'"
 prettify = "black ./app ./tests"

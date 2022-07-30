@@ -20,20 +20,20 @@ Inspired by [kingsoftgames/certbot-lambda](https://github.com/kingsoftgames/cert
 
 ## Deployment
 
-### AWS Lambda
-
 Download latest version of `certbot-lambda.zip` from [releases](https://github.com/KiraLT/certbot-lambda/releases).
 
-1. Create new lambda in AWS Dashboard with `Python 3.9` runtime.
-1. Upload `certbot-lambda.zip` at `Code` > `Code source` > `Upload from` > `.zip file`.
-1. Update handler to `lambdex_handler.handler` at `Code` > `Runtime settings` > `Handler`.
-1. Create new `Execution role` at `Configuration` > `Execution role` > `Edit` > `Create a new role from AWS policy templates` with name `lambda-certbot`.
-1. Go to created role by clicking on the name and `Attach policies`:
+### AWS Lambda
+
+1. Create new lambda in Google Dashboard with `Python 3.9` runtime.
+2. Upload `certbot-lambda.zip` at `Code` > `Code source` > `Upload from` > `.zip file`.
+3. Update handler to `main.handler` at `Code` > `Runtime settings` > `Handler`.
+4. Create new `Execution role` at `Configuration` > `Execution role` > `Edit` > `Create a new role from AWS policy templates` with name `lambda-certbot`.
+5. Go to created role by clicking on the name and `Attach policies`:
     * `SecretsManagerReadWrite`
     * `AmazonRoute53FullAccess`
-1. Increase execution timeout in `Configuration` > `General configuration` to 10 minutes and memory limit to 150Mb.
-1. Add ENV variables at `Configuration` > `Environment variables` (check bellow for required ENV variables).
-1. Run lambda manually one time to create a secret by going to `Test` and executing `hello-wold` template.
+6. Increase execution timeout in `Configuration` > `General configuration` to 10 minutes and memory limit to 150Mb.
+7. Add ENV variables at `Configuration` > `Environment variables` (check bellow for required ENV variables).
+8. Run lambda manually one time to create a secret by going to `Test` and executing `hello-wold` template.
 
 #### Automatic rotation
 
@@ -46,6 +46,16 @@ For that to work, update lambda and add new `Resource-based policy` at `Configur
     * **Action**: `lambda:InvokeFunction`
 
 Then go to AWS Secrets dashboard and create a rotation rule for created secrets - it should execute created lambda.
+
+### Google Function
+
+1. Create new function in [Google Cloud dashboard](https://console.cloud.google.com/functions).
+2. Set trigger `Cloud Pub/Sub` _(create new topic)_.
+4. Add runtime environment variables according your needs _(check configuration section and examples bellow)_.
+5. Increase timeout to `540` seconds.
+6. Select `Python 3.9` runtime.
+7. Select `Zip upload` source code type and upload `certbot-lambda.zip` _(you may need to create storage bucket where zip will be stored)_.
+8. Deploy function.
 
 ## Environment variables
 
@@ -87,7 +97,7 @@ CERTBOT_DOMAINS=*.example.com,example.com
 CERTBOT_DNS_PLUGIN=dns-route53
 ```
 
-| In the [lambda](https://aws.amazon.com/lambda/) aws credentials are provided by default. Make sure lambda role has access to AWS Secrets and Route 53. Or you can [configure them manually](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
+> In the [lambda](https://aws.amazon.com/lambda/) aws credentials are provided by default. Make sure lambda role has access to AWS Secrets and Route 53. Or you can [configure them manually](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
 
 ### AWS Lambda to AWS Secrets using Cloudflare
 
@@ -100,4 +110,4 @@ CERTBOT_DNS_PLUGIN=dns-cloudflare
 CERTBOT_CREDENTIALS="dns_cloudflare_api_token = 0123456789abcdef0123456789abcdef01234567"
 ```
 
-| In the [lambda](https://aws.amazon.com/lambda/) aws credentials are provided by default. Make sure lambda role has access to AWS Secrets. Or you can [configure them manually](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
+> In the [lambda](https://aws.amazon.com/lambda/) aws credentials are provided by default. Make sure lambda role has access to AWS Secrets. Or you can [configure them manually](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
