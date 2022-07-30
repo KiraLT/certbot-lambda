@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.4 (2022-07-30)
+### Fix
+* Credentials file fix ([`2e563f1`](https://github.com/KiraLT/certbot-lambda/commit/2e563f1133d54cd750b104a586b995793454c3b2))
+
 ## v0.2.3 (2022-07-30)
 ### Fix
 * Fix dependency issue, add google cloud function support ([`01630d0`](https://github.com/KiraLT/certbot-lambda/commit/01630d010296729fed0b7d4431f547bd426a852f))
