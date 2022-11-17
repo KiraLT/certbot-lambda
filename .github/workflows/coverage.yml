@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: 3.9
 
-      - uses: abatilo/actions-poetry@v2.1.5
+      - uses: abatilo/actions-poetry@3.7.4
 
       - run: poetry install
 
