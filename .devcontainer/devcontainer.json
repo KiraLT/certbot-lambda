@@ -1,0 +1,8 @@
+{
+  "name": "certbot-lambda",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/poetry:1": {}
+  },
+  "updateContentCommand": "poetry install"
+}
