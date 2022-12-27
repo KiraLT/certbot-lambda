@@ -23,6 +23,12 @@ jobs:
     - name: Install dependencies
       run: poetry install
 
+    - name: Run tests
+      run: poetry run task test
+
+    - name: Run build tests
+      run: poetry run task test-build
+
     - name: Semantic Release
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
