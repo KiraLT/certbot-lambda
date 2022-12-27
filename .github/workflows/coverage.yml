@@ -13,10 +13,10 @@ jobs:
         with:
           python-version: 3.9
 
-      - uses: abatilo/actions-poetry@v2.1.5
+      - uses: abatilo/actions-poetry@v2
 
       - run: poetry install
 
       - run: poetry run task test
 
-      - uses: codecov/codecov-action@v3.1.0
+      - uses: codecov/codecov-action@v3
