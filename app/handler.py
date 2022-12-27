@@ -17,6 +17,8 @@ def handler(_event, _context):
 
         if len(dns_plugins) != 14:
             raise Exception('Failed to discover all certbot DNS plugins')
+        
+        return
     else:
         try:
             shutil.rmtree(str(settings.CERTBOT_DIR), ignore_errors=True)
