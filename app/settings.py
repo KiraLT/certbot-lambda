@@ -18,7 +18,6 @@ class Settings:
     CERTBOT_EXTRA_ARGS: list[str] = None
     CERTBOT_CREDENTIALS: str = None
     CERTBOT_PROPAGATION_SECONDS: str = None
-    TESTMODE: bool = False
 
 
 def read_env(
@@ -61,5 +60,4 @@ def load_settings() -> Settings:
         CERTBOT_EXTRA_ARGS=read_env("CERTBOT_EXTRA_ARGS", multi=True, delimiter=" "),
         CERTBOT_CREDENTIALS=read_env("CERTBOT_CREDENTIALS"),
         CERTBOT_PROPAGATION_SECONDS=read_env("CERTBOT_PROPAGATION_SECONDS"),
-        TESTMODE=read_env('TESTMODE') == 'true'
     )

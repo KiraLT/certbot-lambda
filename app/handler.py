@@ -2,6 +2,7 @@
 
 import shutil
 from certbot._internal.plugins import disco as plugins_disco
+from os import environ
 
 from app.settings import load_settings
 from app.services.certbot import obtain_certbot_certs
@@ -9,9 +10,7 @@ from app.services.aws import list_secret_names, upload_certs_as_secrets
 
 
 def handler(_event, _context):
-    settings = load_settings()
-
-    if settings.TESTMODE:
+    if environ.get('TESTMODE') == 'true':
         plugins = list(plugins_disco.PluginsRegistry.find_all())
         dns_plugins = [v for v in plugins if v.startswith('dns-')]
 
@@ -20,6 +19,9 @@ def handler(_event, _context):
         
         return
     else:
+        settings = load_settings()
+
+
         try:
             shutil.rmtree(str(settings.CERTBOT_DIR), ignore_errors=True)
 
