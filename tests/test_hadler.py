@@ -1,4 +1,4 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 import os
 from tempfile import TemporaryDirectory
 from pathlib import Path
@@ -12,6 +12,10 @@ secrets = {
     "privkey.pem": "a" * 60,
     "cert.pem": "a" * 60,
 }
+
+
+class ResourceExistsException(Exception):
+    pass
 
 
 @patch("app.settings.load_dotenv")
@@ -80,9 +84,8 @@ def test_new_aws_cer(certbot, client, _dotenv):
 @patch("app.services.aws.client")
 @patch("app.services.certbot.main.main")
 def test_existing_aws_cert(certbot, client, _dotenv):
-    client.return_value.list_secrets.return_value = {
-        "SecretList": [{"Name": "certbot-domain-com"}]
-    }
+    client.return_value.create_secret.side_effect = ResourceExistsException("")
+    client.return_value.exceptions.ResourceExistsException = ResourceExistsException
 
     with TemporaryDirectory() as tmpdir:
         path = Path(tmpdir).resolve()

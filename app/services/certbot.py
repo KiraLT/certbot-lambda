@@ -27,7 +27,7 @@ def obtain_certbot_certs(
     credentials: str = None,
     propagation_seconds: int = None,
 ) -> list[Cert]:
-    with NamedTemporaryFile(mode = "w") as tmp:
+    with NamedTemporaryFile(mode="w") as tmp:
         if credentials:
             tmp.write(credentials)
             tmp.flush()
@@ -63,11 +63,7 @@ def obtain_certbot_certs(
             # Rewrite preferred chain
             *(["--preferred-chain", preferred_chain] if preferred_chain else []),
             # Credentials file
-            *(
-                [f"--{dns_plugin}-credentials", tmp.name]
-                if credentials
-                else []
-            ),
+            *([f"--{dns_plugin}-credentials", tmp.name] if credentials else []),
             # The number of seconds to wait for DNS
             *(
                 [f"--{dns_plugin}-propagation-seconds", propagation_seconds]

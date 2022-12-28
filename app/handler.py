@@ -6,27 +6,23 @@ from os import environ
 
 from app.settings import load_settings
 from app.services.certbot import obtain_certbot_certs
-from app.services.aws import list_secret_names, upload_certs_as_secrets
+from app.services.aws import upload_certs_as_secrets
 
 
 def handler(_event, _context):
-    if environ.get('TESTMODE') == 'true':
+    if environ.get("TESTMODE") == "true":
         plugins = list(plugins_disco.PluginsRegistry.find_all())
-        dns_plugins = [v for v in plugins if v.startswith('dns-')]
+        dns_plugins = [v for v in plugins if v.startswith("dns-")]
 
         if len(dns_plugins) != 14:
-            raise Exception('Failed to discover all certbot DNS plugins')
-        
+            raise Exception("Failed to discover all certbot DNS plugins")
+
         return
     else:
         settings = load_settings()
 
-
         try:
             shutil.rmtree(str(settings.CERTBOT_DIR), ignore_errors=True)
-
-            # Load secret names early to check if aws client is configured correctly
-            secret_names = list_secret_names()
 
             certs = obtain_certbot_certs(
                 emails=settings.CERTBOT_EMAILS,
@@ -43,7 +39,6 @@ def handler(_event, _context):
             upload_certs_as_secrets(
                 certs,
                 name=settings.AWS_SECRET_NAME,
-                secret_names=secret_names,
                 description=settings.AWS_SECRET_DESCRIPTION,
             )
         finally:
