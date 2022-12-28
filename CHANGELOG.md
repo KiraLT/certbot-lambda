@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.0 (2022-12-28)
+### Feature
+* Remove secrets listing to reduce required AWS permissions ([`b16cc62`](https://github.com/KiraLT/certbot-lambda/commit/b16cc6250ca6029ad7e20606441b4a3aef2902cb))
+
 ## v0.3.0 (2022-12-28)
 ### Feature
 * Dependencies update ([`56c67e5`](https://github.com/KiraLT/certbot-lambda/commit/56c67e554aa86de8eaafe285b363feb995ff797f))
