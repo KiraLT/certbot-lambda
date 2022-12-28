@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.0 (2022-12-28)
+### Feature
+* Dependencies update ([`56c67e5`](https://github.com/KiraLT/certbot-lambda/commit/56c67e554aa86de8eaafe285b363feb995ff797f))
+
 ## v0.2.4 (2022-07-30)
 ### Fix
 * Credentials file fix ([`2e563f1`](https://github.com/KiraLT/certbot-lambda/commit/2e563f1133d54cd750b104a586b995793454c3b2))

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "app"
-version = "0.2.4"
+version = "0.3.0"
 description = ""
 authors = ["KiraLT <certbot-lambda@kiralt.dev>"]
 packages = [
