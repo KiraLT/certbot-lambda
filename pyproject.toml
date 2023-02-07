@@ -10,7 +10,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "~3.9"
 certbot = "^2.1.0"
-boto3 = "^1.26.38"
+boto3 = "^1.26.66"
 certbot-dns-route53 = "^2.1.0"
 certbot-dns-cloudflare = "^2.1.0"
 certbot-dns-cloudxns = "^1.32.0"
