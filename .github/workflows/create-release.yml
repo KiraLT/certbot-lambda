@@ -29,6 +29,12 @@ jobs:
     - name: Run build tests
       run: poetry run task test-build
 
+    - uses: actions/upload-artifact@v3
+      with:
+        name: release
+        path: dist/certbot-lambda.zip
+        retention-days: 1
+
     - name: Semantic Release
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
