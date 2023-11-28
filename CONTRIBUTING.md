@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* python3.9
+* python3.11
 * [Poetry](https://python-poetry.org/docs/#installation)
 
 ## Commands

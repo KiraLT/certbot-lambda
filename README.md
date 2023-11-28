@@ -22,7 +22,7 @@ Download latest version of `certbot-lambda.zip` from [releases](https://github.c
 
 ### AWS Lambda
 
-1. Create new lambda in Google Dashboard with `Python 3.9` runtime.
+1. Create new lambda in Google Dashboard with `Python 3.11` runtime.
 2. Upload `certbot-lambda.zip` at `Code` > `Code source` > `Upload from` > `.zip file`.
 3. Update handler to `main.handler` at `Code` > `Runtime settings` > `Handler`.
 4. Create new `Execution role` at `Configuration` > `Execution role` > `Edit` > `Create a new role from AWS policy templates` with name `lambda-certbot`.
@@ -51,7 +51,7 @@ Then go to AWS Secrets dashboard and create a rotation rule for created secrets 
 2. Set trigger `Cloud Pub/Sub` _(create new topic)_.
 4. Add runtime environment variables according your needs _(check configuration section and examples bellow)_.
 5. Increase timeout to `540` seconds.
-6. Select `Python 3.9` runtime.
+6. Select `Python 3.11` runtime.
 7. Select `Zip upload` source code type and upload `certbot-lambda.zip` _(you may need to create storage bucket where zip will be stored)_.
 8. Deploy function.
 
