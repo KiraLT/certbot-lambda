@@ -8,7 +8,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "~3.9"
+python = "~3.11"
 certbot = "^2.7.4"
 boto3 = "^1.28.76"
 certbot-dns-route53 = "^2.7.4"
@@ -43,7 +43,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 build = "rm -rf ./dist && task build-pex && task build-lambda"
-build-pex = "pex . -o dist/certbot-lambda.zip"
+build-pex = "pex . --complete-platform complete-platform.json -o dist/certbot-lambda.zip"
 build-lambda = "lambdex build -e app.handler:handler -M main.py dist/certbot-lambda.zip"
 test = "pytest --cov=app --cov-report xml tests/"
 test-build = "task build && TESTMODE=true lambdex test --empty dist/certbot-lambda.zip"
