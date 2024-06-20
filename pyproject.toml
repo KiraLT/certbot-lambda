@@ -48,7 +48,7 @@ test-build = "task build && TESTMODE=true lambdex test --empty dist/certbot-lamb
 run-build = "task build && lambdex test --empty dist/certbot-lambda.zip"
 dev = "python -c 'from app.handler import handler; handler(None, None)'"
 prettify = "black ./app ./tests"
-release = "semantic-release publish -h"
+release = "semantic-release publish"
 
 [tool.semantic_release]
 version_variables = ["app/__init__.py:__version__", "pyproject.toml:version"]
