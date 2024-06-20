@@ -3,9 +3,7 @@ name = "app"
 version = "0.4.0"
 description = ""
 authors = ["KiraLT <certbot-lambda@kiralt.dev>"]
-packages = [
-    { include = "app" },
-]
+packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
 python = "~3.11"
@@ -50,16 +48,15 @@ test-build = "task build && TESTMODE=true lambdex test --empty dist/certbot-lamb
 run-build = "task build && lambdex test --empty dist/certbot-lambda.zip"
 dev = "python -c 'from app.handler import handler; handler(None, None)'"
 prettify = "black ./app ./tests"
-release = "semantic-release publish"
+release = "semantic-release publish -h"
 
 [tool.semantic_release]
-version_variable = [
-    "app/__init__.py:__version__",
-    "pyproject.toml:version"
-]
-branch = "main"
-hvcs = "github"
-upload_to_pypi = false
-upload_to_release = true
+version_variables = ["app/__init__.py:__version__", "pyproject.toml:version"]
 build_command = "poetry run task build"
-commit_subject = "Release {version} [skip ci]"
+commit_message = "Release {version} [skip ci]"
+
+[tool.semantic_release.remote]
+type = "github"
+
+[tool.semantic_release.publish]
+upload_to_vcs_release = true
